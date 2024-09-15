@@ -98,7 +98,7 @@ with open('train.csv', newline='') as csvfile:
     X = get_poly(X)
     Y = dataset[:,n-1]
 
-    w = np.zeros(2*(n-1))
+    w = np.zeros(2*(n-2))
     b = 0
     
     X, means, stds = create_normalization(X)
@@ -113,9 +113,9 @@ with open('train.csv', newline='') as csvfile:
     w_model = w
     b_model = b
 
-X_test = []
-Y_test = []
-Y_predict = []
+X_test_final = []
+Y_test_final = []
+Y_predict_final = []
 
 
 
@@ -130,7 +130,7 @@ with open('test.csv', newline='') as csvfile:
     X_test = dataset[:, 1:n]
     X_test = get_poly(X_test)
     X_test_norm = normalize_testing(X_test, mean_model, stds_model)
-    Y_predict = [np.dot(w_model, X_test_norm[i]) + b_model for i in range(m)]
+    Y_predict_final = [np.dot(w_model, X_test_norm[i]) + b_model for i in range(m)]
 
 ID = []    
 
@@ -143,9 +143,6 @@ with open('submission_example.csv') as csvfile:
     Y = np.array(l[1:])
 
     ID = np.array([Y[i][0] for i in range(Y.shape[0])])
-    Y_test = np.array([np.float32(Y[i][1]) for i in range(Y.shape[0])])
-
-
 
 
 average_diff = 0;
@@ -159,8 +156,8 @@ print("The accuracy on test data of the model is :", 100 - average_diff*100,"%")
 with open('predictions.csv', mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['ID','medv'])  
-    for i in range(len(Y_predict)):
-        writer.writerow([ID[i],Y_predict[i]])
+    for i in range(len(Y_predict_final)):
+        writer.writerow([ID[i],Y_predict_final[i]])
 
 
 
