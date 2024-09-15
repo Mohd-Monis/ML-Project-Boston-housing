@@ -154,7 +154,7 @@ for i in range(len(Y_predict_test)):
     average_diff += np.abs(Y_predict_test[i] - Y_test_[i]) / np.float32(Y_test_[i])
     
 average_diff /= len(Y_predict_test)
-print("The accuracy on test data of the model is :", average_diff*100,"%")
+print("The accuracy on test data of the model is :", 100 - average_diff*100,"%")
 
 with open('predictions.csv', mode='w', newline='') as file:
     writer = csv.writer(file)
